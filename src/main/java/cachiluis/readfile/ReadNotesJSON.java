@@ -1,5 +1,8 @@
-package cachiluis;
+package cachiluis.readfile;
 
+import cachiluis.Course;
+import cachiluis.Kardex;
+import cachiluis.School;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -11,47 +14,65 @@ import java.io.IOException;
 
 public class ReadNotesJSON extends ReadRegisterGrades {
 
-    ReadNotesJSON(String path) {
+    public ReadNotesJSON(String path) {
         super(path);
         readFile();
     }
 
     @Override
     protected void readFile() {
-        JSONParser jsonParser = new JSONParser();
-
         try {
             FileReader reader = new FileReader(super.path);
-            //Read JSON file
-            super.file = jsonParser.parse(reader);
+            parseSubject(reader);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
-            JSONArray studentList = (JSONArray) super.file;
+    }
+    private void parseSubject(FileReader file){
+        JSONParser jsonParser = new JSONParser();
+        try {
+            super.file = jsonParser.parse(file);
+            JSONObject jsonFile = (JSONObject) super.file;
+
+            String subject = (String) jsonFile.get("subject");
+            String curseName = (String) jsonFile.get("curse");
+            int year = (int) jsonFile.get("year");
+            School school = School.getSchool();
+            Course curse =  school.getCurse(curseName, year); //currently year is not used
+
+
+            JSONArray studentList = (JSONArray) jsonFile.get("students");
+
+//            JSONArray studentList = (JSONArray) super.file;
             System.out.println(studentList);
 
             //Iterate over employee array
-            studentList.forEach(student -> parseStudent((JSONObject) student));
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
+            studentList.forEach(student -> parseStudent((JSONObject) student, curse));
+        } catch (ParseException | IOException e) {
             e.printStackTrace();
         }
-//        notesToHashMap();
+
     }
 
-    private void parseStudent(JSONObject student) {
-        //Get employee object within list
+    private void parseStudent(JSONObject student, Course course) {
+        //Get Students Values id, name etc
         JSONObject studentObj = (JSONObject) student.get("student");
+        Kardex studentKardex = course.getStudentKardex(
+                (String) studentObj.get("id"), (String) studentObj.get("name"));
 
-        RegisterNotes registerNotes = new RegisterNotes((String) studentObj.get("id"));
+        JSONArray notes = (JSONArray) studentObj.get("notes");
+        System.out.println(notes);
+        //Get notes of the students
+        notes.forEach(notesGrade ->  parseNotes((JSONObject) notesGrade));
+        ;
+//
+    }
 
-        //Get employee first name
-        for (int i = 1; i <= 4 ; i++) {
-            int note = (int) studentObj.get(i);
-            registerNotes.setGrades(i, note);
-        }
+    private void parseNotes(JSONObject notesGrade) {
+        String period = notesGrade.get("period").toString();
+        String note = notesGrade.get("grade").toString();
+//        registerNotes.setGrades(Integer.parseInt(period), Integer.parseInt(note));
     }
 
 }
