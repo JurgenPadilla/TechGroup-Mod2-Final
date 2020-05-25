@@ -11,6 +11,7 @@ public class Kardex {
     public Kardex(String Id, String studentName) {
         student = new Student(Id, studentName);
         id = student.getId();
+        subjects = new MyHashMap<>();
     }
 
     public Subject getSubject(String subjectName) {

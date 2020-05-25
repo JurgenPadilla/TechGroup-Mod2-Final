@@ -8,6 +8,7 @@ public class Course {
 
     public Course(String curseName) {
         this.curseName = curseName;
+        kardexStudents = new MyArrayList<>();
     }
 
     @Override

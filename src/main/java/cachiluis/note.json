@@ -4,50 +4,48 @@
   "year": 2020,
   "students": [
     {
-      "student": {
-        "id": "321",
-        "name": "Juan Calle",
-        "notes": [
-          {
-            "period": 1,
-            "grade": 20
-          },
-          {
-            "period": 2,
-            "grade": 50
-          },
-          {
-            "period": 3,
-            "grade": 60
-          },
-          {
-            "period": 4,
-            "grade": 100
-          }
-        ]
-      },
-      "student": {
-        "id": "654",
-        "name": "Peter Stone",
-        "notes": [
-          {
-            "period": 1,
-            "grade": 80
-          },
-          {
-            "period": 2,
-            "grade": 90
-          },
-          {
-            "period": 3,
-            "grade": 60
-          },
-          {
-            "period": 4,
-            "grade": 70
-          }
-        ]
-      }
+      "id": "321",
+      "name": "Juan Calle",
+      "notes": [
+        {
+          "period": 1,
+          "grade": 20
+        },
+        {
+          "period": 2,
+          "grade": 50
+        },
+        {
+          "period": 3,
+          "grade": 60
+        },
+        {
+          "period": 4,
+          "grade": 100
+        }
+      ]
+    },
+    {
+      "id": "654",
+      "name": "Peter Stone",
+      "notes": [
+        {
+          "period": 1,
+          "grade": 80
+        },
+        {
+          "period": 2,
+          "grade": 90
+        },
+        {
+          "period": 3,
+          "grade": 60
+        },
+        {
+          "period": 4,
+          "grade": 70
+        }
+      ]
     }
   ]
 }

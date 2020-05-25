@@ -36,8 +36,8 @@ public class ReadNotesJSON extends ReadRegisterGrades {
             JSONObject jsonFile = (JSONObject) super.file;
 
             String subject = (String) jsonFile.get("subject");
-            String curseName = (String) jsonFile.get("curse");
-            int year = (int) jsonFile.get("year");
+            String curseName = (String) jsonFile.get("course");
+            int year = Integer.parseInt(String.valueOf(jsonFile.get("year")));
             School school = School.getSchool();
             Course curse =  school.getCurse(curseName, year); //currently year is not used
 
@@ -57,21 +57,25 @@ public class ReadNotesJSON extends ReadRegisterGrades {
 
     private void parseStudent(JSONObject student, Course course) {
         //Get Students Values id, name etc
-        JSONObject studentObj = (JSONObject) student.get("student");
         Kardex studentKardex = course.getStudentKardex(
-                (String) studentObj.get("id"), (String) studentObj.get("name"));
+                (String) student.get("id"), (String) student.get("name"));
 
-        JSONArray notes = (JSONArray) studentObj.get("notes");
+        JSONArray notes = (JSONArray) student.get("notes");
         System.out.println(notes);
         //Get notes of the students
-        notes.forEach(notesGrade ->  parseNotes((JSONObject) notesGrade));
+        notes.forEach(notesGrade -> {
+                int notess[] = parseNotes((JSONObject) notesGrade);
+                studentKardex.setGradesForSubject("math", notess[0], notess[1]);
+        });
         ;
 //
     }
 
-    private void parseNotes(JSONObject notesGrade) {
+    private int[] parseNotes(JSONObject notesGrade) {
         String period = notesGrade.get("period").toString();
         String note = notesGrade.get("grade").toString();
+        int notes[] = {Integer.parseInt(period), Integer.parseInt(note)};
+        return notes;
 //        registerNotes.setGrades(Integer.parseInt(period), Integer.parseInt(note));
     }
 

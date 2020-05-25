@@ -7,11 +7,11 @@ public class Subject {
 
     public Subject(String subjectName) {
         this.subjectName = subjectName;
-        grades = new RegisterNotes();
+        this.grades = new RegisterNotes();
     }
 
     public void registerGrades(int period, int grade){
-        grades.setGrades(period, grade);
+        this.grades.setGrades(period, grade);
     }
 
     @Override
