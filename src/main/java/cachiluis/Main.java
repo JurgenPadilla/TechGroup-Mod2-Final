@@ -1,6 +1,6 @@
 package cachiluis;
 
-import cachiluis.readfile.ReadNotesJSON;
+import cachiluis.services.readfile.ReadNotesJSON;
 
 public class Main {
     public static void main(String[] args) {

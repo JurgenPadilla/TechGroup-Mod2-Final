@@ -1,8 +1,7 @@
-package cachiluis.readfile;
+package cachiluis.services.readfile;
 
-import cachiluis.Course;
-import cachiluis.Kardex;
-import cachiluis.School;
+import cachiluis.model.Course;
+import cachiluis.model.School;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -39,7 +38,7 @@ public class ReadNotesJSON extends ReadRegisterGrades {
             String curseName = (String) jsonFile.get("course");
             int year = Integer.parseInt(String.valueOf(jsonFile.get("year")));
             School school = School.getSchool();
-            Course curse =  school.getCurse(curseName, year); //currently year is not used
+            Course curse =  school.getCurse(curseName); //currently year is not used
 
 
             JSONArray studentList = (JSONArray) jsonFile.get("students");
@@ -57,17 +56,16 @@ public class ReadNotesJSON extends ReadRegisterGrades {
 
     private void parseStudent(JSONObject student, Course course) {
         //Get Students Values id, name etc
-        Kardex studentKardex = course.getStudentKardex(
-                (String) student.get("id"), (String) student.get("name"));
-
-        JSONArray notes = (JSONArray) student.get("notes");
-        System.out.println(notes);
-        //Get notes of the students
-        notes.forEach(notesGrade -> {
-                int notess[] = parseNotes((JSONObject) notesGrade);
-                studentKardex.setGradesForSubject("math", notess[0], notess[1]);
-        });
-        ;
+//        Kardex studentKardex = course.getStudentKardex(
+//                (String) student.get("id"), (String) student.get("name"));
+//
+//        JSONArray notes = (JSONArray) student.get("notes");
+//        System.out.println(notes);
+//        //Get notes of the students
+//        notes.forEach(notesGrade -> {
+//                int notess[] = parseNotes((JSONObject) notesGrade);
+//                studentKardex.setGradesForSubject("math", notess[0], notess[1]);
+//        });
 //
     }
 

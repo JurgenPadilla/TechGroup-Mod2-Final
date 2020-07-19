@@ -1,4 +1,4 @@
-package cachiluis;
+package cachiluis.model;
 
 public abstract class Person {
     private String name;

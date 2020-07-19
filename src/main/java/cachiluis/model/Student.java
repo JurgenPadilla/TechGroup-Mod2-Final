@@ -1,7 +1,7 @@
-package cachiluis;
+package cachiluis.model;
 
 public class Student extends Person {
-    private Parent parent;
+    private Tutor tutor;
     private String id;
     private String name;
 
@@ -9,8 +9,8 @@ public class Student extends Person {
         this.id = id;
         this.name = studentName;
     }
-    public void setParent(Parent parent){
-        this.parent = parent;
+    public void setTutor(Tutor tutor){
+        this.tutor = tutor;
     }
 
     public String getId() {

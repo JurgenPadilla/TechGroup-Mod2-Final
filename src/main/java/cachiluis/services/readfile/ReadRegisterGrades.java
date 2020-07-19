@@ -1,4 +1,4 @@
-package cachiluis.readfile;
+package cachiluis.services.readfile;
 
 public abstract class ReadRegisterGrades {
     protected String path;
