@@ -6,10 +6,13 @@ import colinajose.model.schoolEntities.Grade;
 import colinajose.model.schoolEntities.GradingScale;
 import colinajose.model.schoolEntities.Kardex;
 import colinajose.model.schoolEntities.Subject;
-import datastructures.arraylist.MyArrayList;
 import datastructures.circulardoublylinkedlist.MyCircularDoublyLinkedList;
+import datastructures.linkedlist.MyLinkedList;
+import datastructures.selfbalancedbst.MyColorNode;
+import datastructures.selfbalancedbst.MyRedBlackBST;
 
 public class GradesService {
+    private static final MyRedBlackBST<Student> gradesTree = new MyRedBlackBST<>();
 
     public static void setGradingScale(Course course, double scholarship, double expelled, double notify) {
         GradingScale gradingScale = new GradingScale(expelled, notify, scholarship);
@@ -21,17 +24,17 @@ public class GradesService {
         subject.addGrade(studentGrade);
     }
 
-    public static MyCircularDoublyLinkedList<Grade> computeGrades(Kardex kardex) {
+    public static void computeGrades(Kardex kardex) {
         MyCircularDoublyLinkedList<Student> students = kardex.getStudents();
         MyCircularDoublyLinkedList<Subject> subjects = kardex.getCourse().getSubjects();
-        MyCircularDoublyLinkedList<Grade> averageGrades = new MyCircularDoublyLinkedList<>();
-        if(students.size() != 0) {
+        gradesTree.clear();
+        if(students.size() > 0) {
             for (int i = 0; i < students.size(); i++) {
                 Student student = students.get(i);
-                averageGrades.add(computeGrade(subjects, student));
+                Grade grade = computeGrade(subjects, student);
+                gradesTree.add(grade.getFinalGrade(), grade.getStudent());
             }
         }
-        return averageGrades;
     }
 
     private static Grade computeGrade(MyCircularDoublyLinkedList<Subject> subjects, Student student) {
@@ -54,75 +57,82 @@ public class GradesService {
         return new Grade(student, average);
     }
 
-    public static void computeStudentStates(Kardex kardex, MyCircularDoublyLinkedList<Grade> averageGrades) {
+    public static void computeStudentStates(Kardex kardex) {
         GradingScale gradingScale = kardex.getCourse().getGradingScale();
-        if(gradingScale == null || averageGrades.size() == 0){
+        if(gradingScale == null || gradesTree.getSize() == 0){
             return;
         }
         double expelledGrade = gradingScale.getExpelledGrade();
         double notifyGrade = gradingScale.getNotifyGrade();
         double scholarshipGrade = gradingScale.getScholarshipGrade();
-        boolean hasScholarship = false;
-        for (int i = 0; i < averageGrades.size(); i++) {
-            Grade grade = averageGrades.get(i);
-            if (grade.getFinalGrade() <= expelledGrade) {
-                grade.getStudent().setState(Student.State.EXPELLED);
-            } else if (grade.getFinalGrade() <= notifyGrade) {
-                grade.getStudent().setState(Student.State.NOTIFY);
-            } else if (grade.getFinalGrade() <= scholarshipGrade) {
-                grade.getStudent().setState(Student.State.AVERAGE);
-            } else {
-                grade.getStudent().setState(Student.State.SCHOLARSHIP);
-                hasScholarship = true;
-            }
-        }
+        boolean hasScholarship = setScholarShipStudents(scholarshipGrade);
+        setExpelledStudents(expelledGrade);
+        setNotifyStudents(expelledGrade, notifyGrade);
+        setAverageStudents(notifyGrade, scholarshipGrade);
         if (!hasScholarship) {
-            scholarshipToHigherGrades(averageGrades);
+            scholarshipToHigherGrades(expelledGrade);
         }
     }
 
-    private static void scholarshipToHigherGrades(MyCircularDoublyLinkedList<Grade> grades) {
-        if(grades.size() != 0) {
-            MyCircularDoublyLinkedList<Grade> sortedGrades = sortGrades(grades);
-            double maxGrade = 0;
-            for (int i = 0; i < sortedGrades.size(); i++) {
-                Grade grade = sortedGrades.get(i);
-                double currentGrade = grade.getFinalGrade();
-                Student currentStudent = grade.getStudent();
-                if (currentGrade >= maxGrade && !currentStudent.getState().equals(Student.State.EXPELLED)) {
-                    currentStudent.setState(Student.State.SCHOLARSHIP);
-                    maxGrade = currentGrade;
-                }
-            }
+    private static void scholarshipToHigherGrades(double expelledGrade){
+        MyLinkedList<Student> higherStudents = gradesTree.getHigherValuesOver(expelledGrade);
+        for (int i = 0; i < higherStudents.size(); i++) {
+            Student student = higherStudents.get(i);
+            student.setState(Student.State.SCHOLARSHIP);
         }
     }
 
-    public static MyCircularDoublyLinkedList<Grade> sortGrades(MyCircularDoublyLinkedList<Grade> grades) {
-        MyCircularDoublyLinkedList<Grade> result = new MyCircularDoublyLinkedList<>();
-        if(grades.size() != 0) {
-            MyArrayList<Grade> sorted = new MyArrayList<>();
-            sorted.add(grades.get(0));
-            for (int i = 1; i < grades.size(); i++) {
-                Grade grade = grades.get(i);
-                double currentGrade = grade.getFinalGrade();
-                boolean isGradeAdded = false;
-                for (int j = 0; j < sorted.size(); j++) {
-                    double sortedGrade = sorted.get(j).getFinalGrade();
-                    if (currentGrade > sortedGrade) {
-                        sorted.add(j, grade);
-                        isGradeAdded = true;
-                        break;
-                    }
-                }
-                if (!isGradeAdded) {
-                    sorted.add(grade);
-                }
-            }
-            for (int i = 0; i < sorted.size(); i++) {
-                result.add(sorted.get(i));
-            }
+    public static MyCircularDoublyLinkedList<Grade> sortGrades() {
+        MyCircularDoublyLinkedList<Grade> sortedGrades = new MyCircularDoublyLinkedList<>();
+        MyColorNode<Student> rootGrade = gradesTree.getRoot();
+        addSortedGrades(sortedGrades, rootGrade);
+        return  sortedGrades;
+    }
+
+    private static void addSortedGrades(MyCircularDoublyLinkedList<Grade> sortedGrades, MyColorNode<Student> currentNode) {
+        if (currentNode == MyRedBlackBST.NULLT) return;
+
+        addSortedGrades(sortedGrades, currentNode.getRight());
+        MyLinkedList<Student> students = currentNode.getElements();
+        for (int i = 0; i < students.size(); i++) {
+            Student student = students.get(i);
+            sortedGrades.add(new Grade(student, currentNode.getValue()));
         }
-        return result;
+        addSortedGrades(sortedGrades, currentNode.getLeft());
+    }
+
+    public static boolean setScholarShipStudents(double scholarshipGrade){
+        MyLinkedList<Student> scholarshipStudents = gradesTree.getValuesGreaterThan(scholarshipGrade);
+        if(scholarshipStudents.isEmpty()) return false;
+        for (int i = 0; i < scholarshipStudents.size(); i++) {
+            Student student = scholarshipStudents.get(i);
+            student.setState(Student.State.SCHOLARSHIP);
+        }
+        return true;
+    }
+    public static void setExpelledStudents(double expelledGrade){
+        MyLinkedList<Student> expelledStudents = gradesTree.getValuesLessThan(expelledGrade);
+        if(expelledStudents.isEmpty()) return;
+        for (int i = 0; i < expelledStudents.size(); i++) {
+            Student student = expelledStudents.get(i);
+            student.setState(Student.State.EXPELLED);
+        }
+    }
+    public static void setNotifyStudents(double expelledGrade, double notifyGrade){
+        MyLinkedList<Student> notifyStudents = gradesTree.getValuesLeftOpenInterval(expelledGrade, notifyGrade);
+        if(notifyStudents.isEmpty()) return;
+        for (int i = 0; i < notifyStudents.size(); i++) {
+            Student student = notifyStudents.get(i);
+            student.setState(Student.State.NOTIFY);
+        }
+    }
+    public static void setAverageStudents(double notifyGrade, double scholarshipGrade){
+        MyLinkedList<Student> averageStudents = gradesTree.getValuesOpenInterval(notifyGrade, scholarshipGrade);
+        if(averageStudents.isEmpty()) return;
+        for (int i = 0; i < averageStudents.size(); i++) {
+            Student student = averageStudents.get(i);
+            student.setState(Student.State.AVERAGE);
+        }
     }
 
 }
