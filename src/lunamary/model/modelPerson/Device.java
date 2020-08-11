@@ -1,14 +1,16 @@
-package lunamary.modelPerson;
+package lunamary.model.modelPerson;
 
 public class Device {
 
-    private String type; // App, Movil, Email
-    private String identifier; // number or email
+    private String type;
+    private String identifier;
+    private AbstractPerson owner;
 
 
-    public Device(String type, String identifier) {
+    public Device(String type, String identifier, AbstractPerson owner) {
         this.type = type;
         this.identifier = identifier;
+        this.owner = owner;
 
     }
 
@@ -26,6 +28,14 @@ public class Device {
 
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
+    }
+
+    public AbstractPerson getOwner() {
+        return owner;
+    }
+
+    public void setOwner(AbstractPerson owner) {
+        this.owner = owner;
     }
 
 

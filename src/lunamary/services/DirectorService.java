@@ -1,27 +1,23 @@
 package lunamary.services;
 
-import lunamary.modelPerson.Director;
-import lunamary.modelSchool.Classroom;
-
-import java.util.List;
+import lunamary.model.modelPerson.Director;
+import lunamary.model.modelSchool.Classroom;
 
 
 public class DirectorService {
-    Director director;
 
-    public DirectorService(Director director) {
-        this.director = director;
+    public DirectorService() {
+
     }
 
-    public void assignAverage(List<Classroom> classroom, String year, Integer averageExpelled, Integer averagescholarship, String name) {
-        for (Classroom var : classroom) {
-            if (name.equals(var.getName())) {
-                var.setMinimumAverageApprobation(averageExpelled);
-                var.setAverageScholarshipGrade(averagescholarship);
-            }
+    public Director createDirector(String name, String lastname, int age) {
+        Director director = new Director(name, lastname, age);
+        return director;
+    }
 
-        }
-
+    public void assignAverage(Classroom classroom, int  averageScholarshipGrade, int minimumAverageApprobation) {
+        classroom.setMinimumAverageApprobation(averageScholarshipGrade);
+        classroom.setAverageScholarshipGrade(minimumAverageApprobation);
 
     }
 }

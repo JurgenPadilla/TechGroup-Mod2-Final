@@ -1,120 +1,70 @@
 package lunamary;
 
-import lunamary.modelPerson.*;
-import lunamary.modelSchool.*;
-import lunamary.services.*;
-
-import java.util.*;
+import lunamary.model.modelSchool.School;
+import lunamary.presentation.Menu;
+import lunamary.services.SchoolService;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner sn = new Scanner(System.in);
-        boolean salir = false;
-        int opcion;
-        while (!salir) {
-            System.out.println("1. Register New School");
-            System.out.println("2. Register New Classroom");
-            System.out.println("3. Register New Subject");
-            System.out.println("4. Register Student");
-            System.out.println("5. Register Director");
-            System.out.println("6. Register Teacher");
-            System.out.println("7. Director set Average by Course");
-            System.out.println("8. Teacher add Grade Student");
-            System.out.println("9. Teacher Import Grade");
-            System.out.println("10. Director generate General Report");
-            System.out.println("11. Director generate General Report");
+        Menu uiSchool = new Menu();
+        uiSchool.menu();
 
+//        SchoolService schoolService = new SchoolService();
+//        schoolService.setDataSchool("Edmundo Bojanowski", "Pacata Alta Zona Norte");
+//        schoolService.registerDirector("Carlos", "Torres", 100);
+//
+//        SchoolService.registerClassroom("1A", "Bottom Junior");
+//        SchoolService.registerClassroom("2A", "2nd Junior");
+//        SchoolService.registerClassroom("3A", "3rd Junior");
+//
+//        SchoolService.registerTeacher("Teacher", "English", 200);
+//        SchoolService.registerTeacher("Teacher", "Spanish", 201);
+//        SchoolService.registerTeacher("Teacher", "Germany", 202);
+//
+//        SchoolService.registerSubject("English1", "1A", 200);
+//        SchoolService.registerSubject("English2", "2A", 200);
+//        schoolService.registerSubject("English3", "3A", 200);
+//
+//        schoolService.registerSubject("Spanish1", "1A", 201);
+//        schoolService.registerSubject("Spanish2", "2A", 201);
+//        schoolService.registerSubject("Spanish3", "3A", 201);
+//
+//        schoolService.registerSubject("Germany1", "1A", 202);
+//        schoolService.registerSubject("Germany2", "2A", 202);
+//        schoolService.registerSubject("Germany3", "3A", 202);
+//
+//        schoolService.registerAverageClassroom("1A", 100, 51);
+//        schoolService.registerAverageClassroom("2A", 100, 51);
+//        schoolService.registerAverageClassroom("3A", 100, 51);
 
-            try {
+//        schoolService.registerStudent("1A", "Carla", "Student1A", 500, "momCarla", "Torres", 400, "Celphone", "798512451", "Email", "mom1@gmail.com");
+//        schoolService.registerStudent("1A", "Carolina", "Student1A", 501, "momCarolina", "Torres", 400, "Celphone", "798512452", "Email", "mom2@gmail.com");
+//        schoolService.registerStudent("1A", "Carola", "Student1A", 502, "momCalora", "Torres", 400, "Celphone", "798512453", "Email", "mom3@gmail.com");
+//
+//        schoolService.registerStudent("2A", "Mario", "Student2A", 503, "dadMario", "Torres", 400, "Celphone", "798512454", "Email", "mom4@gmail.com");
+//        schoolService.registerStudent("2A", "Mauricio", "Student2A", 504, "dadMauricio", "Torres", 400, "Celphone", "798512455", "Email", "mom5@gmail.com");
+//        schoolService.registerStudent("2A", "Miguel", "Student2A", 505, "dadaMiguel", "Torres", 400, "Celphone", "798512456", "Email", "mom6@gmail.com");
+//
+//        schoolService.registerStudent("3A", "Teresa", "Student3A", 506, "momTeresa", "Torres", 400, "Celphone", "798512457", "Email", "mom7@gmail.com");
+//        schoolService.registerStudent("3A", "Tania", "Student3A", 507, "momMarcos", "Torres", 400, "Celphone", "798512458", "Email", "mom8@gmail.com");
+//        schoolService.registerStudent("3A", "Tono", "Student3A", 508, "momMarcos", "Torres", 400, "Celphone", "798512450", "Email", "mom9@gmail.com");
 
-                System.out.println("Write Option");
-                opcion = sn.nextInt();
-
-                switch (opcion) {
-                    case 1:
-
-                        break;
-                    case 2:
-
-                        break;
-                    case 3:
-
-                        break;
-                    case 12:
-                        salir = true;
-                        break;
-                    default:
-                        System.out.println("Tried again");
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Should be enter number");
-                sn.next();
-            }
-        }
-
-
-        Device device1 = new Device("Celular", "77559048");
-        List<Device> deviceList = new ArrayList<>();
-        deviceList.add(device1);
-
-        Parent parent = new Parent("papa", "papa", 20, deviceList);
-
-        Student student = new Student("Mary", "Luna", 34, deviceList, parent);
-        String res = student.getName();
-        System.out.println("Student: " + res);
-        Director director = new Director("director", "director", 56, deviceList);
-        String res1 = director.getName();
-        System.out.println("Director: " + res1);
-        Teacher teacher = new Teacher("director", "director", 56, deviceList);
-        String res2 = teacher.getName();
-        System.out.println("Teacher: " + res2);
-
-        Subject subject1 = new Subject(teacher, "Materia1");
-
-        List<Student> studentList = new ArrayList<>();
-        studentList.add(student);
-
-        List<Subject> subjectList = new ArrayList<>();
-        subjectList.add(subject1);
-
-
-        Classroom classroom = new Classroom(subjectList, "Curso1A", studentList);
-
-        List<Classroom> classroomList = new ArrayList<>();
-        classroomList.add(classroom);
-
-        Grade grade = new Grade();
-        List<Grade> gradeList = new ArrayList<>();
-        GradeStudent gradeStudent = new GradeStudent(gradeList, student, "2020");
-        List<GradeStudent> gradeStudentList = new ArrayList<>();
-
-
-        School school = new School("Escueka1", director, classroomList, gradeStudentList);
-        school.getName();
-
-
-        DirectorService directorService = new DirectorService(director);
-        directorService.assignAverage(classroomList, "01-01-2020", 50, 100, "Classroom1");
-        System.out.println(" aplazados: " + classroom.getMinimumAverageApprobation());
-        System.out.println("Becado: " + classroom.getAverageScholarshipGrade());
-
-        TeacherService teacherService = new TeacherService(teacher);
-        teacherService.assignAverageStudent(40, student, subject1, "2020");
-
-
-        grade.setGrade(10);
-        grade.setDescription("primer trimestre");
-
-        GradeService gradeService = new GradeService();
-        gradeService.validateGrade(grade.getGrade());
-
-
-        List<IObserver> observers = new ArrayList<>();
-
-
-        NotificationService notificationService = new NotificationService();
-//        gradeService.joinObserver(notificationService);
-
+//
+//        schoolService.assignGradeStudent("1A", 200, 50, "First Test", 40, "Second Test", 500, "English1", "2020");
+//        schoolService.assignGradeStudent("1A", 201, 100, "First Test", 100, "Second Test", 501, "Spanish1", "2020");
+//        schoolService.assignGradeStudent("1A", 202, 100, "First Test", 100, "Second Test", 502, "Germany1", "2020");
+//
+//        schoolService.assignGradeStudent("2A", 200, 50, "First Test", 50, "Second Test", 503, "English1", "2020");
+//        schoolService.assignGradeStudent("2A", 201, 100, "First Test", 100, "Second Test", 504, "Spanish2", "2020");
+//        schoolService.assignGradeStudent("2A", 202, 100, "First Test", 100, "Second Test", 505, "Germany2", "2020");
+//
+//        schoolService.assignGradeStudent("3A", 200, 50, "First Test", 50, "Second Test", 506, "English1", "2020");
+//        schoolService.assignGradeStudent("3A", 201, 100, "First Test", 100, "Second Test", 507, "Spanish3", "2020");
+//        schoolService.assignGradeStudent("3A", 202, 100, "First Test", 100, "Second Test", 508, "Germany3", "2020");
+//
+//
+//        schoolService.importGradeFromFile("src/lunamary/ReadWriteData/file.json");
+//        schoolService.importGradeFromFile("src/lunamary/ReadWriteData/file.csv");
 
     }
 
