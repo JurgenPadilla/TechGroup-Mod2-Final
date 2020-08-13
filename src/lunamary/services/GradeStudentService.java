@@ -11,8 +11,8 @@ import java.util.List;
 public class GradeStudentService {
 
 
-    public GradeStudent createGradeStudent(List<Grade> grades, Student student, String year, Subject subject, Teacher teacher) {
-        GradeStudent gradeStudent = new GradeStudent(grades, student, year, subject, teacher);
+    public GradeStudent createGradeStudent(Grade grade, Student student, String year, Subject subject, Teacher teacher) {
+        GradeStudent gradeStudent = new GradeStudent(grade, student, year, subject, teacher);
         return gradeStudent;
     }
 

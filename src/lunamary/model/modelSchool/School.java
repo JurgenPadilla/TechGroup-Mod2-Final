@@ -2,10 +2,7 @@ package lunamary.model.modelSchool;
 
 import datastructures.circulardoublylinkedlist.MyCircularDoublyLinkedList;
 import lunamary.model.BaseModel;
-import lunamary.model.modelPerson.Device;
-import lunamary.model.modelPerson.Director;
-import lunamary.model.modelPerson.Parent;
-import lunamary.model.modelPerson.Teacher;
+import lunamary.model.modelPerson.*;
 
 public class School extends BaseModel {
 
@@ -18,12 +15,14 @@ public class School extends BaseModel {
     private MyCircularDoublyLinkedList<Parent> parentList;
     private MyCircularDoublyLinkedList<Device> deviceList;
     private MyCircularDoublyLinkedList<GradeStudent> gradeStudentList;
+    private MyCircularDoublyLinkedList<Kardex> kardexList;
 
 
     public School() {
         this.teacherList = new MyCircularDoublyLinkedList<>();
         this.classroomList = new MyCircularDoublyLinkedList<>();
         this.gradeStudentList = new MyCircularDoublyLinkedList<>();
+        this.kardexList = new MyCircularDoublyLinkedList<>();
 
     }
 
@@ -91,6 +90,15 @@ public class School extends BaseModel {
         this.address = address;
     }
 
+    public MyCircularDoublyLinkedList<Kardex> getKardexList() {
+        return kardexList;
+    }
+
+    public void setKardexList(MyCircularDoublyLinkedList<Kardex> kardexList) {
+        this.kardexList = kardexList;
+    }
+
+
     public void addTeacher(Teacher teacher) {
         this.teacherList.add(teacher);
     }
@@ -109,6 +117,10 @@ public class School extends BaseModel {
 
     public void addGradeStudent(GradeStudent gradeStudent) {
         this.gradeStudentList.add(gradeStudent);
+    }
+
+    public void addKardex(Kardex kardex) {
+        this.kardexList.add(kardex);
     }
 
 }

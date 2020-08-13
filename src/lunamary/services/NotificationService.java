@@ -2,12 +2,14 @@ package lunamary.services;
 
 import lunamary.model.modelPerson.AbstractPerson;
 import lunamary.model.modelPerson.Device;
+import lunamary.model.modelPerson.Director;
+import lunamary.model.modelPerson.Parent;
 
 public class NotificationService implements IObserver {
     private final AbstractPerson person;
     private final Device device;
 
-    public NotificationService(AbstractPerson senderNotification, Device deviceReceiversNotification) {
+    public NotificationService(Director senderNotification, Device deviceReceiversNotification) {
         this.person = senderNotification;
         this.device = deviceReceiversNotification;
     }

@@ -1,4 +1,4 @@
-ciTeacher,nameClassroom,ciStudent,Subject,gradeSemester1,gradeSemester2,year
-"300","1A","400","English1","10","60","2020"
-"300","1A","400","English1","20","60","2020"
-"300","1A","400","English1","30","60","2020"
+ciTeacher,nameClassroom,ciStudent,Subject,grade,year
+"300","1A","400","English1","10","2020"
+"300","1A","400","English1","20","2020"
+"300","1A","400","English1","30","2020"

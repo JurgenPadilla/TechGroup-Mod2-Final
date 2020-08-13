@@ -10,8 +10,8 @@ public class DirectorService {
 
     }
 
-    public Director createDirector(String name, String lastname, int age) {
-        Director director = new Director(name, lastname, age);
+    public Director createDirector(String name, String lastname, int age, String gender) {
+        Director director = new Director(name, lastname, age, gender);
         return director;
     }
 

@@ -61,8 +61,8 @@ public class MyHashSetTest {
     public void testRearrange() {
         MyHashSet<Integer> myHashSet = new MyHashSet<>(3);
 
-        myHashSet.add(3);
         myHashSet.add(9);
+        myHashSet.add(3);
         myHashSet.add(12);
 
         assertEquals(3, myHashSet.get(0).size());

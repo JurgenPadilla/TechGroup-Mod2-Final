@@ -1,8 +1,6 @@
 package lunamary.services;
 
-import lunamary.model.modelPerson.Device;
 import lunamary.model.modelPerson.Parent;
-import lunamary.model.modelPerson.Student;
 
 
 public class ParentService {
@@ -11,8 +9,8 @@ public class ParentService {
 
     }
 
-    public Parent createParent(String name, String lastname, int ci) {
-        Parent parent = new Parent(name, lastname, ci);
+    public Parent createParent(String name, String lastname, int ci, String gender) {
+        Parent parent = new Parent(name, lastname, ci, gender);
         return parent;
     }
 

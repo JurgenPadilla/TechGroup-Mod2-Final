@@ -11,25 +11,25 @@ import java.util.List;
 public class GradeStudent extends BaseModel {
 
     private Teacher teacher;
-    private List<Grade> gradeList;
+    private Grade grade;
     private Student student;
     private String year;
     private Subject subject;
 
-    public GradeStudent(List<Grade> gradeList, Student student, String year, Subject subject, Teacher teacher) {
-        this.gradeList = gradeList;
+    public GradeStudent(Grade grade, Student student, String year, Subject subject, Teacher teacher) {
+        this.grade = grade;
         this.student = student;
         this.year = year;
         this.subject = subject;
         this.teacher = teacher;
     }
 
-    public List<Grade> getGradeList() {
-        return gradeList;
+    public Grade getGrade() {
+        return grade;
     }
 
-    public void setGradeList(List<Grade> gradeList) {
-        this.gradeList = gradeList;
+    public void setGrade(Grade gradeList) {
+        this.grade = gradeList;
     }
 
     public Student getStudent() {

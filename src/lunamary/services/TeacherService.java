@@ -14,15 +14,15 @@ public class TeacherService {
 
     }
 
-    public Teacher createTeacher(String name, String lastName, int age) {
-        Teacher teacher = new Teacher(name, lastName, age);
+    public Teacher createTeacher(String name, String lastName, int age, String gender) {
+        Teacher teacher = new Teacher(name, lastName, age, gender);
         return teacher;
     }
 
 
-    public GradeStudent createGradeStudent(Teacher teacher, Student student, Subject subject, String year, List<Grade> grades) {
+    public GradeStudent createGradeStudent(Teacher teacher, Student student, Subject subject, String year, Grade grade) {
         GradeStudentService gradeStudentService = new GradeStudentService();
-        GradeStudent gradeStudent = gradeStudentService.createGradeStudent(grades, student, year, subject, teacher);
+        GradeStudent gradeStudent = gradeStudentService.createGradeStudent(grade, student, year, subject, teacher);
         return gradeStudent;
     }
 
