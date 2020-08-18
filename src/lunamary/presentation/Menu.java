@@ -1,17 +1,14 @@
 package lunamary.presentation;
 
 import datastructures.circulardoublylinkedlist.MyCircularDoublyLinkedList;
-import datastructures.hashmap.MyHashMap;
+import datastructures.linkedlist.MyLinkedList;
 import lunamary.model.modelPerson.Kardex;
 import lunamary.model.modelPerson.Student;
 import lunamary.model.modelPerson.Teacher;
 import lunamary.model.modelSchool.Classroom;
-import lunamary.model.modelSchool.GradeStudent;
 import lunamary.model.modelSchool.Subject;
 import lunamary.services.SchoolService;
 
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -19,19 +16,24 @@ public class Menu {
     SchoolService schoolService;
     Scanner scanner = new Scanner(System.in);
     String selectOption = "";
+    String dataSchool = "";
 
     public void menu() {
+
+        if (selectOption.contains("1") == false) {
+            uiRegisterNewSchool();
+        }
+        if (selectOption.contains("2") == false) {
+            uiRegisterDirectorSchool();
+        }
+
         boolean option = true;
         do {
             System.out.println("#################################################");
             System.out.println("Creation sequence for the school system:");
             System.out.println("#################################################");
-            if (selectOption.contains("1") == false) {
-                System.out.println("\t 1. Register New School");
-            }
-            if (selectOption.contains("2") == false) {
-                System.out.println("\t 2. Assign Director to the school");
-            }
+//            if (selectOption.contains("1") == false){System.out.println("\t 1. Register New School");}
+//            if (selectOption.contains("2") == false){System.out.println("\t 2. Assign Director to the school");}
             if (selectOption.contains("3") == false) {
                 System.out.println("\t 3. Register New Classroom ");
             } else {
@@ -66,7 +68,11 @@ public class Menu {
             } else {
                 System.out.println("\t 8. Register Assign Grade Student   (*)");
             }
-            System.out.println("\t 9. Director generate General Report");
+            if (selectOption.contains("9") == false) {
+                System.out.println("\t 9. Director generate General Report");
+            } else {
+                System.out.println("\t 9. Director generate General Report    (*)");
+            }
             System.out.println("\t 10. Director generate General Report");
             System.out.println("\t Para salir ingrese 's'. ");
             System.out.println("-------------------------------------------------");
@@ -75,14 +81,8 @@ public class Menu {
             System.out.println("#################################################\n\n");
 
             switch (selectOption.toLowerCase()) {
-                case "1":
-                    uiRegisterNewSchool();
-                    option = false;
-                    break;
-                case "2":
-                    uiRegisterDirectorSchool();
-                    option = false;
-                    break;
+//                case "1": uiRegisterNewSchool(); option = false; break;
+//                case "2": uiRegisterDirectorSchool(); option = false; break;
                 case "3":
                     uiRegisterClassRoom();
                     option = false;
@@ -107,6 +107,10 @@ public class Menu {
                     uiRegisterAssignGradeStudent();
                     option = false;
                     break;
+                case "9":
+                    uiImportFileJson();
+                    option = false;
+                    break;
                 case "s":
                     option = false;
                     break;
@@ -114,13 +118,7 @@ public class Menu {
                     menu();
                     break;
             }
-            if (selectOption.contains("5") == false) {
-                System.out.println("\t 5. Register New Subject");
-            } else {
-                System.out.println("\t 5. Register New Subject   (*)");
-            }
-            ;
-
+            // if (selectOption.contains("5") == false){System.out.println("\t 5. Register New Subject");}else{System.out.println("\t 5. Register New Subject   (*)");};
         } while (option);
     }
 
@@ -135,12 +133,19 @@ public class Menu {
         System.out.println("=================================================\n");
         stepNewSchool(nameSchool, address);
         selectOption += selectOption + "1";
+        dataSchool = "School: " + nameSchool;
         menu();
     }
 
+    public void stepNewSchoolAndSchool(String nameSchool, String address, String director, String lastNameDirector, int ci) {
+//        schoolService = new SchoolService(nameSchool, address);
+//        schoolService.createSchool(nameSchool, address);
+//        schoolService.registerDirector(director, lastNameDirector, ci);
+    }
 
     public void stepNewSchool(String nameSchool, String address) {
         schoolService = new SchoolService(nameSchool, address);
+        //schoolService.createSchool(nameSchool, address);
     }
 
     public void uiRegisterDirectorSchool() {
@@ -159,13 +164,15 @@ public class Menu {
         System.out.println("=================================================\n");
         schoolService.registerDirector(director, lastName, Integer.parseInt(ci), gender);
         selectOption += "2";
+        dataSchool += ", Director: " + director + " " + lastName;
         menu();
     }
 
     public void uiRegisterClassRoom() {
-        System.out.println("=================================================");
-        System.out.println(" 3. Register New Classroom");
-        System.out.println("=================================================");
+        System.out.println("==============================================================");
+        System.out.println(dataSchool.toUpperCase());
+        System.out.println("             3. Register New Classroom");
+        System.out.println("==============================================================");
         viewListClassroom();
         schoolService.getSchool().getClassroomList();
         System.out.print("\t Insert the room acronym: ");
@@ -173,7 +180,7 @@ public class Menu {
         System.out.print("\t Insert the room name: ");
         String name = scanner.nextLine();
         SchoolService.registerClassroom(id, name);
-        System.out.println("=================================================\n");
+        System.out.println("==============================================================\n");
         selectOption += "3";
         menu();
     }
@@ -216,7 +223,7 @@ public class Menu {
             System.out.println("    List Teachers:");
             for (int i = 0; i < list.size(); i++) {
                 Teacher teacher = (Teacher) list.get(i);
-                String name = teacher.getName() + " " + teacher.getLastname();
+                String name = teacher.getName() + " " + teacher.getLastname()+" ("+teacher.getCi()+")";;
                 System.out.println("    • " + name);
             }
             System.out.println();
@@ -252,11 +259,34 @@ public class Menu {
                 MyCircularDoublyLinkedList listSubject = classroom.getSubjectList();
                 for (int j = 0; j < listSubject.size(); j++) {
                     Subject subject = (Subject) listSubject.get(j);
-                    System.out.println(classroom.getCode() + "          " + classroom.getName() + "         " + subject.getName() + "            " + subject.getTeacher().getName() + " " + subject.getTeacher().getLastname());
+                    String col1 = classroom.getCode() + " " + classroom.getName();
+                    String col2 = subject.getName();
+                    String col3 = subject.getTeacher().getName() + " " + subject.getTeacher().getLastname() + " (" + subject.getTeacher().getCi() + ")";
+//                    System.out.println(classroom.getCode() + "          " + classroom.getName() + "         " + subject.getName() + "            " +
+//                            subject.getTeacher().getName() + " " + subject.getTeacher().getLastname()+" ("+subject.getTeacher().getCi()+")");
+
+                    System.out.println(createRowData(col1, col2, col3));
                 }
+//            String name = teacher.getName()+" "+teacher.getLastname();
+//            System.out.println("    • "+ name);
             }
             System.out.println();
         }
+    }
+
+    public String createRowData(String col1, String col2, String col3) {
+        String row = "";
+        String[] cols = {col1, col2, col3};
+        String newCol = "";
+        for (String col : cols) {
+            int letter = col.length();
+            while (letter < 19) {
+                col += " ";
+                letter++;
+            }
+            row += " " + col + "|";
+        }
+        return row;
     }
 
     public void uiRegisterAverageClassroom() {
@@ -329,6 +359,27 @@ public class Menu {
         menu();
     }
 
+    public void uiImportFileJson() {
+        System.out.println("==============================================================");
+        System.out.println(dataSchool.toUpperCase());
+        System.out.println("             9. Import Grade file Json");
+        System.out.println("==============================================================");
+        System.out.print("\t Insert the path file Json: ");
+        String pathFile = scanner.nextLine();
+        System.out.println("==============================================================");
+        selectOption += "9";
+        menu();
+    }
+
+    public boolean verifyPathFile(String path) {
+        boolean pathVoid = false;
+        if (path != "") {
+            schoolService.importGradeFromFile(path);
+            pathVoid = true;
+        }
+        return pathVoid;
+    }
+
 
     public void viewListClassroomAverage() {
         MyCircularDoublyLinkedList list = schoolService.getSchool().getClassroomList();
@@ -373,13 +424,32 @@ public class Menu {
     public void viewListKardex() {
         MyCircularDoublyLinkedList list = schoolService.getSchool().getKardexList();
         if (list.size() > 0) {
-            System.out.println("    List Kardex:");
+            System.out.println("   List Kardex: **** NO SORT******");
             for (int i = 0; i < list.size(); i++) {
                 Kardex kardex = (Kardex) list.get(i);
                 String name = kardex.getStudent().getName() + " - " + kardex.getClassroom().getCode() + " - " + kardex.getFinalAverage();
                 System.out.println("    • " + name);
                 System.out.println();
             }
+        }
+
+    }
+
+    public void viewListKardexHash() {
+        Map<String, MyLinkedList<Kardex>> listHash = schoolService.getSchool().getKardexHashMap();
+        if (listHash.size() > 0) {
+            System.out.println("    List sort Kardex by Classroom :");
+            for (Map.Entry<String, MyLinkedList<Kardex>> listHashlist : listHash.entrySet()) {
+                System.out.println(listHashlist.getKey() + ": ");
+                for (int i = 0; i < listHashlist.getValue().size(); i++) {
+                    Kardex kardex = (Kardex) listHashlist.getValue().get(i);
+                    String name = kardex.getStudent().getName() + " - " + kardex.getFinalAverage();
+                    System.out.println("    • " + name);
+                    System.out.println();
+                }
+            }
+
+
         }
 
     }

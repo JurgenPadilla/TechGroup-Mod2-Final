@@ -2,6 +2,10 @@ package lunamary.readWriteData;
 
 import datastructures.arraylist.MyArrayList;
 import datastructures.hashmap.MyHashMap;
+import datastructures.linkedlist.MyLinkedList;
+import lunamary.model.modelPerson.Kardex;
+
+import java.util.Map;
 
 public abstract class ReadWriteFile {
     protected String path;
@@ -13,5 +17,5 @@ public abstract class ReadWriteFile {
 
     public abstract MyArrayList<MyHashMap<String, String>> readLines();
 
-    public abstract boolean writeEntries(MyArrayList<MyHashMap<String, String>> lines);
+    public abstract boolean writeEntries(Map<String, MyLinkedList<Kardex>>  lines);
 }

@@ -69,7 +69,7 @@ public class SearchService {
         MyCircularDoublyLinkedList<Subject> elements = classroom.getSubjectList();
         for (int i = 0; i < elements.size(); i++) {
             Subject element = elements.get(i);
-            if (element.getName() == (nameSubject)) {
+            if (element.getName().equals(nameSubject)) {
                 subject = element;
             }
 

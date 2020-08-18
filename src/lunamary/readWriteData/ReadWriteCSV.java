@@ -3,8 +3,16 @@ package lunamary.readWriteData;
 import com.opencsv.CSVReader;
 import datastructures.arraylist.MyArrayList;
 import datastructures.hashmap.MyHashMap;
+import datastructures.linkedlist.MyLinkedList;
+import lunamary.model.modelPerson.Kardex;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Map;
 
 public class ReadWriteCSV extends ReadWriteFile {
 
@@ -36,7 +44,9 @@ public class ReadWriteCSV extends ReadWriteFile {
     }
 
     @Override
-    public boolean writeEntries(MyArrayList<MyHashMap<String, String>> lines) {
-        return false;
+    public boolean writeEntries(Map<String, MyLinkedList<Kardex>> entries) {
+
+            return false;
+//        }
     }
 }

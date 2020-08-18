@@ -1,18 +1,18 @@
 [
   {
-    "ciTeacher": "300",
+    "ciTeacher": "200",
     "nameClassroom": "1A",
-    "ciStudent": "400",
-    "subject": "English",
-    "grade": 50,
+    "ciStudent": "501",
+    "subject": "English1",
+    "grade": 20,
     "year": "2020"
   },
   {
-    "ciTeacher": "300",
+    "ciTeacher": "202",
     "nameClassroom": "1A",
-    "ciStudent": "401",
-    "subject": "English",
-    "grade": 50,
+    "ciStudent": "501",
+    "subject": "Germany1",
+    "grade": 20,
     "year": "2020"
   }
 ]

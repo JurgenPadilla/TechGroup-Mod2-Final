@@ -2,12 +2,19 @@ package lunamary.readWriteData;
 
 import datastructures.arraylist.MyArrayList;
 import datastructures.hashmap.MyHashMap;
+import datastructures.linkedlist.MyLinkedList;
+import lunamary.model.modelPerson.Kardex;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Map;
 
 public class ReadWriteJSON extends ReadWriteFile {
 
@@ -41,9 +48,39 @@ public class ReadWriteJSON extends ReadWriteFile {
     }
 
     @Override
-    public boolean writeEntries(MyArrayList<MyHashMap<String, String>> lines) {
+    public boolean writeEntries(Map<String, MyLinkedList<Kardex>> dataStudent) {
+
+        try {
+            BufferedWriter writer = Files.newBufferedWriter(Paths.get(this.path));
+            JSONArray objectsArray = new JSONArray();
+            LinkedList<Object> valueObject = new LinkedList<>();
+            if (!dataStudent.isEmpty()) {
+
+                for (MyLinkedList<Kardex> listStudent : dataStudent.values()) {
+                    JSONObject object = new JSONObject();
+
+                    for (int i = 0; i < listStudent.getSize(); i++) {
+                        String classroom = listStudent.get(i).getClassroom().getCode();
+                        String name = listStudent.get(i).getStudent().getName() + " " + listStudent.get(i).getStudent().getName();
+                        int average = listStudent.get(i).getFinalAverage();
+//                       String status = listStudent.get(i).getStudent().getStatus().name();
+                        object.put("classroom", classroom);
+                        object.put("name", name);
+                        object.put("average", average);
+                        valueObject.add(object);
+                    }
+                   objectsArray.put(valueObject);
+//                    valueObject = new LinkedList<>();
+                }
+
+            }
+            objectsArray.write(writer);
+            writer.close();
+            return true;
+        } catch (
+                Exception exception) {
+            exception.printStackTrace();
+        }
         return false;
     }
-
-
 }
