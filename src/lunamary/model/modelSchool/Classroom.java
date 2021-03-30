@@ -10,6 +10,7 @@ public class Classroom extends BaseModel {
     private MyCircularDoublyLinkedList<Subject> subjectList;
     private int averageScholarshipGrade;
     private int minimumAverageApprobation;
+    private int averageExpelled;
     private String name;
     private String code;
 
@@ -67,6 +68,14 @@ public class Classroom extends BaseModel {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public int getAverageExpelled() {
+        return averageExpelled;
+    }
+
+    public void setAverageExpelled(int averageExpelled) {
+        this.averageExpelled = averageExpelled;
     }
 
 

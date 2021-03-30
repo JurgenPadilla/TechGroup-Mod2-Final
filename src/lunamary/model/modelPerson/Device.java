@@ -4,13 +4,12 @@ public class Device {
 
     private String type;
     private String identifier;
-    private AbstractPerson owner;
+    private String templateMsj;
 
 
-    public Device(String type, String identifier, AbstractPerson owner) {
+    public Device(String type, String identifier) {
         this.type = type;
         this.identifier = identifier;
-        this.owner = owner;
 
     }
 
@@ -30,12 +29,12 @@ public class Device {
         this.identifier = identifier;
     }
 
-    public AbstractPerson getOwner() {
-        return owner;
+    public String getTemplateMsj() {
+        return templateMsj;
     }
 
-    public void setOwner(AbstractPerson owner) {
-        this.owner = owner;
+    public void setTemplateMsj(String text) {
+        this.templateMsj = text;
     }
 
 

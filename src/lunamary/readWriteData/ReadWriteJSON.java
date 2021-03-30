@@ -48,29 +48,28 @@ public class ReadWriteJSON extends ReadWriteFile {
     }
 
     @Override
-    public boolean writeEntries(Map<String, MyLinkedList<Kardex>> dataStudent) {
+    public boolean writeLines(Map<String, MyLinkedList<Kardex>> dataStudent) {
 
         try {
             BufferedWriter writer = Files.newBufferedWriter(Paths.get(this.path));
             JSONArray objectsArray = new JSONArray();
-            LinkedList<Object> valueObject = new LinkedList<>();
             if (!dataStudent.isEmpty()) {
 
                 for (MyLinkedList<Kardex> listStudent : dataStudent.values()) {
-                    JSONObject object = new JSONObject();
-
+                    LinkedList<Object> valueObject = new LinkedList<>();
                     for (int i = 0; i < listStudent.getSize(); i++) {
+                        JSONObject object = new JSONObject();
                         String classroom = listStudent.get(i).getClassroom().getCode();
                         String name = listStudent.get(i).getStudent().getName() + " " + listStudent.get(i).getStudent().getName();
                         int average = listStudent.get(i).getFinalAverage();
-//                       String status = listStudent.get(i).getStudent().getStatus().name();
+                        String status = listStudent.get(i).getStudent().getStatus();
+                        object.put("status", status);
                         object.put("classroom", classroom);
                         object.put("name", name);
                         object.put("average", average);
                         valueObject.add(object);
                     }
-                   objectsArray.put(valueObject);
-//                    valueObject = new LinkedList<>();
+                    objectsArray.put(valueObject);
                 }
 
             }

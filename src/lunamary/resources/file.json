@@ -1,18 +1,68 @@
 [
   {
     "ciTeacher": "200",
-    "nameClassroom": "1A",
-    "ciStudent": "501",
-    "subject": "English1",
-    "grade": 20,
+    "nameClassroom": "3A",
+    "ciStudent": "510",
+    "subject": "Spanish-3",
+    "grade": 100,
+    "year": "2020"
+  },
+  {
+    "ciTeacher": "201",
+    "nameClassroom": "3A",
+    "ciStudent": "510",
+    "subject": "English-3",
+    "grade": 100,
     "year": "2020"
   },
   {
     "ciTeacher": "202",
-    "nameClassroom": "1A",
-    "ciStudent": "501",
-    "subject": "Germany1",
-    "grade": 20,
+    "nameClassroom": "3A",
+    "ciStudent": "510",
+    "subject": "German-3",
+    "grade": 100,
+    "year": "2020"
+  },
+  {
+    "ciTeacher": "203",
+    "nameClassroom": "3A",
+    "ciStudent": "510",
+    "subject": "French-3",
+    "grade": 100,
+    "year": "2020"
+  },
+
+  {
+    "ciTeacher": "200",
+    "nameClassroom": "3A",
+    "ciStudent": "511",
+    "subject": "Spanish-3",
+    "grade": 10,
+    "year": "2020"
+  },
+  {
+    "ciTeacher": "201",
+    "nameClassroom": "3A",
+    "ciStudent": "511",
+    "subject": "English-3",
+    "grade": 10,
+    "year": "2020"
+  },
+  {
+    "ciTeacher": "202",
+    "nameClassroom": "3A",
+    "ciStudent": "511",
+    "subject": "German-3",
+    "grade": 10,
+    "year": "2020"
+  },
+  {
+    "ciTeacher": "203",
+    "nameClassroom": "3A",
+    "ciStudent": "511",
+    "subject": "French-3",
+    "grade": 10,
     "year": "2020"
   }
+
 ]

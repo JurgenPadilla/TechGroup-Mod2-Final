@@ -28,8 +28,8 @@ public class GradeStudent extends BaseModel {
         return grade;
     }
 
-    public void setGrade(Grade gradeList) {
-        this.grade = gradeList;
+    public void setGrade(Grade grade) {
+        this.grade = grade;
     }
 
     public Student getStudent() {

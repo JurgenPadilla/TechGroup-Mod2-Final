@@ -28,6 +28,7 @@ public class School extends BaseModel {
         this.gradeStudentList = new MyCircularDoublyLinkedList<>();
         this.kardexList = new MyCircularDoublyLinkedList<>();
         this.kardexHashMap = new HashMap<>();
+        this.parentList = new MyCircularDoublyLinkedList<>();
     }
 
     public String getName() {

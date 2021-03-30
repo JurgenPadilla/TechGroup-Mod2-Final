@@ -5,6 +5,7 @@ import lunamary.model.modelPerson.Parent;
 import lunamary.model.modelPerson.Student;
 import lunamary.model.modelPerson.Teacher;
 import lunamary.model.modelSchool.Classroom;
+import lunamary.model.modelSchool.GradeStudent;
 import lunamary.model.modelSchool.Subject;
 
 public class SearchService {
@@ -75,6 +76,21 @@ public class SearchService {
 
         }
         return subject;
+    }
+
+    public static GradeStudent getGradeStudent(int ciStudent, String nameSubject) {
+
+        GradeStudent gradeStudent = null;
+        MyCircularDoublyLinkedList<GradeStudent> elements = SchoolService.getSchool().getGradeStudentList();
+
+        for (int i = 0; i < elements.size(); i++) {
+            GradeStudent element = elements.get(i);
+            if (element.getStudent().getCi() == ciStudent && element.getSubject().getName().equals(nameSubject)) {
+                gradeStudent = element;
+            }
+
+        }
+        return gradeStudent;
     }
 
 }

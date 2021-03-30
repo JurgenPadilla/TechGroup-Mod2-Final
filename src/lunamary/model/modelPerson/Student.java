@@ -5,17 +5,15 @@ import lunamary.model.modelSchool.GradeStudent;
 
 
 public class Student extends AbstractPerson {
-    public enum Value {SCHOLARSHIP, EXPELLED, APPROVED, ACTIVE}
+    private String status;
 
-    ;
-    private Value status;
     private MyCircularDoublyLinkedList<Parent> parentList;
 
 
     public Student(String name, String lastName, int ci, String gender) {
         super(name, lastName, ci, gender);
         this.parentList = new MyCircularDoublyLinkedList<>();
-        this.status = Value.ACTIVE;
+
     }
 
     public MyCircularDoublyLinkedList<Parent> getParents() {
@@ -26,11 +24,11 @@ public class Student extends AbstractPerson {
         this.parentList = parents;
     }
 
-    public Value getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Value status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

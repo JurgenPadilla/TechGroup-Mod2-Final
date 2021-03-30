@@ -2,9 +2,7 @@ package lunamary.presentation;
 
 import datastructures.circulardoublylinkedlist.MyCircularDoublyLinkedList;
 import datastructures.linkedlist.MyLinkedList;
-import lunamary.model.modelPerson.Kardex;
-import lunamary.model.modelPerson.Student;
-import lunamary.model.modelPerson.Teacher;
+import lunamary.model.modelPerson.*;
 import lunamary.model.modelSchool.Classroom;
 import lunamary.model.modelSchool.Subject;
 import lunamary.services.SchoolService;
@@ -13,6 +11,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class Menu {
+    //    SchoolService schoolService = new SchoolService();
     SchoolService schoolService;
     Scanner scanner = new Scanner(System.in);
     String selectOption = "";
@@ -40,21 +39,21 @@ public class Menu {
                 System.out.println("\t 3. Register New Classroom   (*)");
             }
             if (selectOption.contains("4") == false) {
-                System.out.println("\t 4. Register Teacher");
+                System.out.println("\t 4. Register New Teacher");
             } else {
-                System.out.println("\t 4.  Register Teacher  (*)");
+                System.out.println("\t 4.  Register New Teacher  (*)");
             }
             ;
             if (selectOption.contains("5") == false) {
-                System.out.println("\t 5. Register Subject");
+                System.out.println("\t 5. Register New Subject");
             } else {
-                System.out.println("\t 5. Director set Average by Course  (*)");
+                System.out.println("\t 5. Register New Subject  (*)");
             }
             ;
             if (selectOption.contains("6") == false) {
                 System.out.println("\t 6. Director set Average by classroom");
             } else {
-                System.out.println("\t 6. Director set Average by Course  (*)");
+                System.out.println("\t 6. Director set Average by classroom  (*)");
             }
             ;
             if (selectOption.contains("7") == false) {
@@ -73,7 +72,6 @@ public class Menu {
             } else {
                 System.out.println("\t 9. Director generate General Report    (*)");
             }
-            System.out.println("\t 10. Director generate General Report");
             System.out.println("\t Para salir ingrese 's'. ");
             System.out.println("-------------------------------------------------");
             System.out.print("Seleccione una opcion: ");
@@ -81,8 +79,6 @@ public class Menu {
             System.out.println("#################################################\n\n");
 
             switch (selectOption.toLowerCase()) {
-//                case "1": uiRegisterNewSchool(); option = false; break;
-//                case "2": uiRegisterDirectorSchool(); option = false; break;
                 case "3":
                     uiRegisterClassRoom();
                     option = false;
@@ -108,7 +104,7 @@ public class Menu {
                     option = false;
                     break;
                 case "9":
-                    uiImportFileJson();
+                    viewReport();
                     option = false;
                     break;
                 case "s":
@@ -120,6 +116,15 @@ public class Menu {
             }
             // if (selectOption.contains("5") == false){System.out.println("\t 5. Register New Subject");}else{System.out.println("\t 5. Register New Subject   (*)");};
         } while (option);
+    }
+
+    public void viewReport() {
+        System.out.print("\t Insert  year: ");
+        String year = scanner.nextLine();
+        schoolService.computeAverageStudents(year);
+        viewListKardexHash();
+        schoolService.notifyDevices();
+        viewNotifications();
     }
 
     public void uiRegisterNewSchool() {
@@ -137,15 +142,10 @@ public class Menu {
         menu();
     }
 
-    public void stepNewSchoolAndSchool(String nameSchool, String address, String director, String lastNameDirector, int ci) {
-//        schoolService = new SchoolService(nameSchool, address);
-//        schoolService.createSchool(nameSchool, address);
-//        schoolService.registerDirector(director, lastNameDirector, ci);
-    }
 
     public void stepNewSchool(String nameSchool, String address) {
         schoolService = new SchoolService(nameSchool, address);
-        //schoolService.createSchool(nameSchool, address);
+
     }
 
     public void uiRegisterDirectorSchool() {
@@ -223,7 +223,8 @@ public class Menu {
             System.out.println("    List Teachers:");
             for (int i = 0; i < list.size(); i++) {
                 Teacher teacher = (Teacher) list.get(i);
-                String name = teacher.getName() + " " + teacher.getLastname()+" ("+teacher.getCi()+")";;
+                String name = teacher.getName() + " " + teacher.getLastname() + " (" + teacher.getCi() + ")";
+                ;
                 System.out.println("    • " + name);
             }
             System.out.println();
@@ -295,11 +296,13 @@ public class Menu {
         System.out.println("=================================================");
         System.out.print("\t Insert the name Classroom: ");
         String nameClassroom = scanner.nextLine();
-        System.out.print("\t Insert the promedio: ");
+        System.out.print("\t Insert scholarship average: ");
         String average = scanner.nextLine();
-        System.out.print("\t Insert the promedio minimo de aprobacion: ");
+        System.out.print("\t Insert minimum approbation Average : ");
         String averageMinApproval = scanner.nextLine();
-        schoolService.registerAverageClassroom(nameClassroom, Integer.parseInt(average), Integer.parseInt(averageMinApproval));
+        System.out.print("\t Insert limit expelled average: ");
+        String averageExpelled = scanner.nextLine();
+        schoolService.registerAverageClassroom(nameClassroom, Integer.parseInt(average), Integer.parseInt(averageMinApproval), Integer.parseInt(averageExpelled));
         System.out.println("================================================= \n");
         selectOption += "6";
         menu();
@@ -317,6 +320,8 @@ public class Menu {
         String lastNameStudent = scanner.nextLine();
         System.out.print("\t Insert the CI Student: ");
         String ciStudent = scanner.nextLine();
+        System.out.print("\t Insert Student gender: ");
+        String gender = scanner.nextLine();
         System.out.print("\t Insert the name Parent: ");
         String nameParent = scanner.nextLine();
         System.out.print("\t Insert the last name Parent: ");
@@ -329,7 +334,9 @@ public class Menu {
         String numberDevice = scanner.nextLine();
         System.out.print("\t Insert the E-mail: ");
         String email = scanner.nextLine();
-        //schoolService.registerStudent(nameClassroom, nameStudent, lastNameStudent, Integer.parseInt(ciStudent), nameParent, lastNameParent, Integer.parseInt(ciParent), typeDevice, numberDevice, "Email", email);
+        System.out.print("\t Insert Parent gender: ");
+        String genderParent = scanner.nextLine();
+        schoolService.registerStudent(nameClassroom, nameStudent, lastNameStudent, Integer.parseInt(ciStudent), gender, nameParent, lastNameParent, Integer.parseInt(ciParent), typeDevice, numberDevice, "Email", email, genderParent);
         System.out.println("================================================= \n");
         selectOption += "7";
         menu();
@@ -438,19 +445,215 @@ public class Menu {
     public void viewListKardexHash() {
         Map<String, MyLinkedList<Kardex>> listHash = schoolService.getSchool().getKardexHashMap();
         if (listHash.size() > 0) {
+            String rows = "      Classroom     |       Student      |       Averange     \n";
+            rows += "¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\n";
             System.out.println("    List sort Kardex by Classroom :");
             for (Map.Entry<String, MyLinkedList<Kardex>> listHashlist : listHash.entrySet()) {
-                System.out.println(listHashlist.getKey() + ": ");
+//                System.out.println(listHashlist.getKey() + ": ");
                 for (int i = 0; i < listHashlist.getValue().size(); i++) {
                     Kardex kardex = (Kardex) listHashlist.getValue().get(i);
-                    String name = kardex.getStudent().getName() + " - " + kardex.getFinalAverage();
-                    System.out.println("    • " + name);
-                    System.out.println();
+                    String name = kardex.getStudent().getName();
+//                    System.out.println("    • " + name);
+                    rows += createRow(new String[]{kardex.getClassroom().getCode(), name + " " + kardex.getStudent().getLastname(), kardex.getFinalAverage() + ""}, 19) + "\n";
+//                    System.out.println();
                 }
-            }
+                rows += "¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\n";
 
+            }
+            System.out.println(rows);
 
         }
 
     }
+
+    public void viewDataSchool() {
+        System.out.println("=================================================");
+        System.out.println("School: " + this.schoolService.getSchool().getName());
+        System.out.print("Director: " + this.schoolService.getSchool().getDirector().getName());
+        System.out.print(" " + this.schoolService.getSchool().getDirector().getLastname());
+        System.out.println(" -  C.I.: " + this.schoolService.getSchool().getDirector().getName());
+        System.out.println("=================================================");
+    }
+
+    public String createRow(String[] data, int sizeCol) {
+        String row = "";
+        String[] cols = data;
+        String newCol = "";
+        for (String col : cols) {
+            int letter = col.length();
+            while (letter < sizeCol) {
+                col += " ";
+                letter++;
+            }
+            row += " " + col + "|";
+        }
+        return row;
+    }
+
+
+    public void viewNotifications() {
+        MyCircularDoublyLinkedList<Parent> parentList = schoolService.getSchool().getParentList();
+        String rows = "          Device           |            Message           |            Parent          \n";
+        rows += "¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\n";
+        for (int i = 0; i < parentList.size(); i++) {
+            Parent parent = parentList.get(i);
+            rows += createRow(new String[]{parent.getDevice().getType(), parent.getDevice().getTemplateMsj(), parent.getName() + " " + parent.getLastname() + ""}, 29) + "\n";
+        }
+        System.out.println(rows);
+    }
+
+    public void menuTest() {
+
+        schoolService = new SchoolService("UNIDAD EDUCATIVA EDMUNDO BOJANOWSKI", "PACATA ALTA - ZONA NORTE");
+        this.schoolService.getSchool().getName();
+        schoolService.registerDirector("Marcelo", "Vargas", 1000, "M");
+        this.viewDataSchool();
+
+
+        schoolService.registerClassroom("1A", "PRIMERO DE PRIMARIA");
+        schoolService.registerClassroom("2A", "SEGUNDO DE PRIMARIA");
+        schoolService.registerClassroom("3A", "TERCERO DE PRIMARIA");
+        schoolService.registerClassroom("4A", "CUARTO DE PRIMARIA ");
+        viewListClassroom();
+
+        schoolService.registerTeacher("Maria", "Spanish", 200, "F");
+        schoolService.registerTeacher("Valentina", "English", 201, "F");
+        schoolService.registerTeacher("Jasmine", "German", 202, "F");
+        schoolService.registerTeacher("Cecila", "French", 203, "F");
+        viewListTeacher();
+
+        schoolService.registerSubject("Spanish-1", "1A", 200);
+        schoolService.registerSubject("Spanish-2", "2A", 200);
+        schoolService.registerSubject("Spanish-3", "3A", 200);
+        schoolService.registerSubject("Spanish-4", "4A", 200);
+
+        schoolService.registerSubject("English-1", "1A", 201);
+        schoolService.registerSubject("English-2", "2A", 201);
+        schoolService.registerSubject("English-3", "3A", 201);
+        schoolService.registerSubject("English-4", "4A", 201);
+
+
+        schoolService.registerSubject("German-1", "1A", 202);
+        schoolService.registerSubject("German-2", "2A", 202);
+        schoolService.registerSubject("German-3", "3A", 202);
+        schoolService.registerSubject("German-4", "4A", 202);
+
+
+        schoolService.registerSubject("French-1", "1A", 203);
+        schoolService.registerSubject("French-2", "2A", 203);
+        schoolService.registerSubject("French-3", "3A", 203);
+        schoolService.registerSubject("French-4", "4A", 203);
+
+        viewListSubject();
+
+
+        schoolService.registerAverageClassroom("1A", 100, 51, 20);
+        schoolService.registerAverageClassroom("2A", 100, 51, 20);
+        schoolService.registerAverageClassroom("3A", 100, 51, 20);
+        schoolService.registerAverageClassroom("4A", 100, 51, 20);
+
+        viewListClassroomAverage();
+
+
+        schoolService.registerStudent("1A", "Carla", "Student1A", 500, "F", "momCarla", "Torres", 400, "Celphone", "798512451", "Email", "mom1@gmail.com", "M");
+        schoolService.registerStudent("1A", "Jorge", "Student1A", 501, "M", "momJorge", "Gutierres", 401, "Celphone", "798512452", "Email", "mom2@gmail.com", "M");
+        schoolService.registerStudent("1A", "Mario", "Student1A", 502, "M", "momMario", "Sanchez", 402, "Celphone", "798512453", "Email", "mom2@gmail.com", "M");
+        schoolService.registerStudent("1A", "Carolina", "Student1A", 503, "F", "momCarolina", "Rdrigues", 403, "Celphone", "798512454", "Email", "mom2@gmail.com", "M");
+        schoolService.registerStudent("1A", "Pedro", "Student1A", 504, "M", "momPedro", "Zurita", 404, "Celphone", "798512455", "Email", "mom3@gmail.com", "M");
+
+        schoolService.registerStudent("2A", "Mauricio", "Student2A", 505, "M", "dadMauricio", "Mercado", 405, "Celphone", "798512456", "Email", "mom4@gmail.com", "M");
+        schoolService.registerStudent("2A", "Julio", "Student2A", 506, "M", "dadJulio", "Torres", 406, "Celphone", "798512457", "Email", "mom5@gmail.com", "M");
+        schoolService.registerStudent("2A", "Miguel", "Student2A", 507, "M", "dadaMiguel", "Mendez", 407, "Celphone", "798512458", "Email", "mom6@gmail.com", "M");
+        schoolService.registerStudent("2A", "Luis", "Student2A", 508, "M", "dadLuis", "Vargas", 408, "Celphone", "798512459", "Email", "mom6@gmail.com", "M");
+        schoolService.registerStudent("2A", "Jose", "Student2A", 509, "M", "dadJose", "Luna", 409, "Celphone", "798512410", "Email", "mom6@gmail.com", "M");
+
+        schoolService.registerStudent("3A", "Teresa", "Student3A", 510, "M", "momTeresa", "Torres", 410, "Celphone", "798512457", "Email", "mom7@gmail.com", "M");
+        schoolService.registerStudent("3A", "Timoteo", "Student3A", 511, "M", "momTimoteo", "Lopez", 411, "Celphone", "798512458", "Email", "mom8@gmail.com", "M");
+
+        schoolService.registerStudent("4A", "Ramiro", "Student3A", 513, "M", "momRamiro", "Milan", 415, "Celphone", "7985552450", "Email", "mom9@gmail.com", "M");
+        schoolService.registerStudent("4A", "Lucas", "Student3A", 514, "M", "momLucas", "Montaño", 416, "Celphone", "798555450", "Email", "mom9@gmail.com", "M");
+        viewListStudentsByCourse();
+
+
+        schoolService.assignGradeStudent("1A", 200, 100, "Test", 500, "Spanish-1", "2020");
+        schoolService.assignGradeStudent("1A", 201, 50, "Test", 500, "English-1", "2020");
+        schoolService.assignGradeStudent("1A", 202, 60, "Test", 500, "German-1", "2020");
+        schoolService.assignGradeStudent("1A", 203, 60, "Test", 500, "French-1", "2020");
+
+        schoolService.assignGradeStudent("1A", 200, 55, "Test", 501, "Spanish-1", "2020");
+        schoolService.assignGradeStudent("1A", 201, 55, "Test", 501, "English-1", "2020");
+        schoolService.assignGradeStudent("1A", 202, 60, "Test", 501, "German-1", "2020");
+        schoolService.assignGradeStudent("1A", 203, 60, "Test", 501, "French-1", "2020");
+
+        schoolService.assignGradeStudent("1A", 200, 100, "Test", 502, "Spanish-1", "2020");
+        schoolService.assignGradeStudent("1A", 201, 100, "Test", 502, "English-1", "2020");
+        schoolService.assignGradeStudent("1A", 202, 100, "Test", 502, "German-1", "2020");
+        schoolService.assignGradeStudent("1A", 203, 100, "Test", 502, "French-1", "2020");
+
+        schoolService.assignGradeStudent("1A", 200, 10, "Test", 503, "Spanish-1", "2020");
+        schoolService.assignGradeStudent("1A", 201, 0, "Test", 503, "English-1", "2020");
+        schoolService.assignGradeStudent("1A", 202, 10, "Test", 503, "German-1", "2020");
+        schoolService.assignGradeStudent("1A", 203, 10, "Test", 503, "French-1", "2020");
+
+        schoolService.assignGradeStudent("1A", 200, 50, "Test", 504, "Spanish-1", "2020");
+        schoolService.assignGradeStudent("1A", 201, 50, "Test", 504, "English-1", "2020");
+        schoolService.assignGradeStudent("1A", 202, 40, "Test", 504, "German-1", "2020");
+        schoolService.assignGradeStudent("1A", 203, 40, "Test", 504, "French-1", "2020");
+
+
+        schoolService.assignGradeStudent("2A", 200, 100, "Test", 505, "Spanish-2", "2020");
+        schoolService.assignGradeStudent("2A", 201, 50, "Test", 505, "English-2", "2020");
+        schoolService.assignGradeStudent("2A", 202, 60, "Test", 505, "German-2", "2020");
+        schoolService.assignGradeStudent("2A", 203, 60, "Test", 505, "French-2", "2020");
+
+        schoolService.assignGradeStudent("2A", 200, 55, "Test", 506, "Spanish-2", "2020");
+        schoolService.assignGradeStudent("2A", 201, 55, "Test", 506, "English-2", "2020");
+        schoolService.assignGradeStudent("2A", 202, 60, "Test", 506, "German-2", "2020");
+        schoolService.assignGradeStudent("2A", 203, 60, "Test", 506, "French-2", "2020");
+
+        schoolService.assignGradeStudent("2A", 200, 100, "Test", 507, "Spanish-2", "2020");
+        schoolService.assignGradeStudent("2A", 201, 100, "Test", 507, "English-2", "2020");
+        schoolService.assignGradeStudent("2A", 202, 100, "Test", 507, "German-2", "2020");
+        schoolService.assignGradeStudent("2A", 203, 100, "Test", 507, "French-", "2020");
+
+        schoolService.assignGradeStudent("2A", 200, 10, "Test", 508, "Spanish-2", "2020");
+        schoolService.assignGradeStudent("2A", 201, 0, "Test", 508, "English-2", "2020");
+        schoolService.assignGradeStudent("2A", 202, 10, "Test", 508, "German-2", "2020");
+        schoolService.assignGradeStudent("2A", 203, 10, "Test", 508, "French-2", "2020");
+
+        schoolService.assignGradeStudent("2A", 200, 50, "Test", 509, "Spanish-2", "2020");
+        schoolService.assignGradeStudent("2A", 201, 50, "Test", 509, "English-2", "2020");
+        schoolService.assignGradeStudent("2A", 202, 40, "Test", 509, "German-2", "2020");
+        schoolService.assignGradeStudent("2A", 203, 40, "Test", 509, "French-2", "2020");
+
+
+        schoolService.computeAverageStudents("2020");
+        viewListKardex();
+        viewListKardexHash();
+        System.out.printf("******************** AFTER IMPORT - JSON  GRADES 3A TERCERO BASICO ************************************");
+        schoolService.importGradeFromFile("src\\lunamary\\resources\\file.json");
+        schoolService.computeAverageStudents("2020");
+        viewListKardex();
+        viewListKardexHash();
+        schoolService.exportDataToFile("src\\lunamary\\resources\\ExportTest1.json", schoolService.getSchool().getKardexHashMap());
+
+        System.out.printf("******************** AFTER IMPORT - CSV ************************************");
+        schoolService.importGradeFromFile("src\\lunamary\\resources\\file.csv");
+        schoolService.computeAverageStudents("2020");
+        viewListKardex();
+        viewListKardexHash();
+        schoolService.exportDataToFile("src\\lunamary\\resources\\ExportTest1.CSV", schoolService.getSchool().getKardexHashMap());
+        schoolService.notifyDevices();
+        viewNotifications();
+        System.out.printf("******************** AFTER EDIT GRADE  ************************************");
+        schoolService.editGradeStudent(100, "MODIFIED", 511, "Spanish-3");
+        schoolService.editGradeStudent(100, "MODIFIED", 511, "English-3");
+        schoolService.computeAverageStudents("2020");
+        viewListKardex();
+        viewListKardexHash();
+        schoolService.notifyDevices();
+        viewNotifications();
+    }
+
+
 }

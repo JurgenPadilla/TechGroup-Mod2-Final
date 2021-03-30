@@ -17,5 +17,5 @@ public abstract class ReadWriteFile {
 
     public abstract MyArrayList<MyHashMap<String, String>> readLines();
 
-    public abstract boolean writeEntries(Map<String, MyLinkedList<Kardex>>  lines);
+    public abstract boolean writeLines(Map<String, MyLinkedList<Kardex>>  lines);
 }

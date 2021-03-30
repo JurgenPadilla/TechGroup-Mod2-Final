@@ -4,34 +4,34 @@ import datastructures.circulardoublylinkedlist.MyCircularDoublyLinkedList;
 
 public class SubjectObservable implements IObservable {
 
-    private MyCircularDoublyLinkedList<IObserver> seviceNotification;
+    private MyCircularDoublyLinkedList<IObserver> serviceDevices;
+
 
     public SubjectObservable() {
-        this.seviceNotification = new MyCircularDoublyLinkedList<>();
+        this.serviceDevices = new MyCircularDoublyLinkedList<>();
     }
 
     @Override
     public void registerObserver(IObserver observer) {
-        if (!this.seviceNotification.contains(observer)) {
-            this.seviceNotification.add(observer);
+        if (!this.serviceDevices.contains(observer)) {
+            this.serviceDevices.add(observer);
         }
     }
 
     @Override
     public void removeObserver(IObserver observer) {
-        this.seviceNotification.remove(observer);
+        this.serviceDevices.remove(observer);
     }
 
     @Override
     public void notifyObservers() {
-        if (this.seviceNotification.size() != 0) {
-            for (int i = 0; i < this.seviceNotification.size(); i++) {
-                this.seviceNotification.get(i).sendNotification();
+        if (this.serviceDevices.size() != 0) {
+            for (int i = 0; i < this.serviceDevices.size(); i++) {
+                this.serviceDevices.get(i).sendNotification();
             }
         } else {
             System.out.println("No devices to be notified.");
         }
-
-
     }
+
 }

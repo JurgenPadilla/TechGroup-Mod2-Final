@@ -15,9 +15,10 @@ public class DirectorService {
         return director;
     }
 
-    public void assignAverage(Classroom classroom, int  averageScholarshipGrade, int minimumAverageApprobation) {
-        classroom.setMinimumAverageApprobation(averageScholarshipGrade);
-        classroom.setAverageScholarshipGrade(minimumAverageApprobation);
+    public void assignAverage(Classroom classroom, int  averageScholarshipGrade, int minimumAverageApprobation, int expelled) {
+        classroom.setMinimumAverageApprobation(minimumAverageApprobation);
+        classroom.setAverageScholarshipGrade(averageScholarshipGrade);
+        classroom.setAverageExpelled(expelled);
 
     }
 }

@@ -8,8 +8,8 @@ public class ClassroomService {
     public ClassroomService() {
     }
 
-    public Classroom crateClassroom(String id, String name) {
-        Classroom classroom = new Classroom(id, name);
+    public Classroom crateClassroom(String codeClassroom, String name) {
+        Classroom classroom = new Classroom(codeClassroom, name);
         return classroom;
     }
 
